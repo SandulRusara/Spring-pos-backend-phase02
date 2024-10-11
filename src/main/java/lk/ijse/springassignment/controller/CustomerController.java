@@ -66,22 +66,18 @@ public class CustomerController {
     public List<CustomerDTO> getAllCustomers(){
         return customerService.getAllCustomers();
     }
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping(value = "/{customerId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updateCustomer(
-            @RequestPart("firstName") String firstName,
-            @RequestPart ("lastName") String city,
-            @RequestPart ("email") String email,
-            @RequestPart ("address") String address,
-            @PathVariable ("customerId") String customerId){
 
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setCustomerId(customerId);
-        customerDTO.setFirstName(firstName);
-        customerDTO.setCity(city);
-        customerDTO.setEmail(email);
-        customerDTO.setAddress(address);
-        customerService.updateCustomer(customerId,customerDTO);
+    @PutMapping(value = "/{customerId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> updateCustomer(@PathVariable("customerId") String customerId,@RequestBody CustomerDTO customerDTO){
+        try {
+            customerService.updateCustomer(customerId,customerDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (DataPersistException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
 
     }
 }
