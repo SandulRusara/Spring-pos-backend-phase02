@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class itemDTO  implements SuperDTO, ItemStatus {
+public class ItemDTO implements SuperDTO, ItemStatus {
     private String itemCode;
     private String itemName;
     private int qtyOnHand;

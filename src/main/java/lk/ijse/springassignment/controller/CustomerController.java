@@ -24,7 +24,9 @@ public class CustomerController {
     private CustomerService customerService;
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>saveCustomer(@RequestBody CustomerDTO customerDTO){
-        customerDTO.setCustomerId(customerDTO.getCustomerId());
+       // customerDTO.setCustomerId(customerDTO.getCustomerId());
+        String s = AppUtil.generateCustomerId();
+        customerDTO.setCustomerId(s);
         try {
             customerService.saveCustomer(customerDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
