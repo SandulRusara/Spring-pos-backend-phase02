@@ -1,12 +1,20 @@
 package lk.ijse.springassignment.service.impl;
 
+import jakarta.transaction.Transactional;
+import lk.ijse.springassignment.dao.ItemDao;
 import lk.ijse.springassignment.dto.ItemStatus;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
 import lk.ijse.springassignment.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
+    @Autowired
+    private ItemDao itemDao;
+
     @Override
     public void saveItem(ItemDTO itemDTO) {
 
