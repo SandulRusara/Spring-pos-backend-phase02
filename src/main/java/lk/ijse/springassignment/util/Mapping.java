@@ -13,7 +13,8 @@ public class Mapping {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CustomerEntity tocustomerEntity(CustomerDTO customerDTO) {return modelMapper.map(customerDTO, CustomerEntity.class);
+    public CustomerEntity tocustomerEntity(CustomerDTO customerDTO) {
+        return modelMapper.map(customerDTO, CustomerEntity.class);
     }
     public CustomerDTO tocustomerDTO(CustomerEntity customerEntity) {
         return modelMapper.map(customerEntity, CustomerDTO.class);

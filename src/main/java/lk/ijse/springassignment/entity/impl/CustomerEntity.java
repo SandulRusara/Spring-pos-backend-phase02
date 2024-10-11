@@ -1,9 +1,6 @@
 package lk.ijse.springassignment.entity.impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lk.ijse.springassignment.entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +14,10 @@ public class CustomerEntity implements SuperEntity {
     @Id
     private String customerId;
     private String firstName;
-    private String lastName;
+    private String city;
     private String email;
     private String address;
-   // @OneToMany(mappedBy = "customer")
+    //@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    
 
 }

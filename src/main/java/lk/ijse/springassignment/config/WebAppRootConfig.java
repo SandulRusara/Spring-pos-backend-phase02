@@ -24,13 +24,14 @@ import javax.sql.DataSource;
 public class WebAppRootConfig {
     @Bean
     public ModelMapper modelMapper(){
+
         return new ModelMapper();
     }
     @Bean
     public DataSource dataSource(){
         var dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/springassignment?createDatabaseIfNotExist=true");
+        dmds.setUrl("jdbc:mysql://localhost:3306/springassignmentt?createDatabaseIfNotExist=true");
         dmds.setUsername("root");
         dmds.setPassword("1234");
         return dmds;

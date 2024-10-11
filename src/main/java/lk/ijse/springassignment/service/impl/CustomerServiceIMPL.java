@@ -62,7 +62,7 @@ public class CustomerServiceIMPL implements CustomerService {
         Optional<CustomerEntity> tmpCustomer = customerDao.findById(customerId);
         if (tmpCustomer.isPresent()){
             tmpCustomer.get().setFirstName(customerDTO.getFirstName());
-            tmpCustomer.get().setLastName(customerDTO.getLastName());
+            tmpCustomer.get().setCity(customerDTO.getCity());
             tmpCustomer.get().setEmail(customerDTO.getEmail());
             tmpCustomer.get().setAddress(customerDTO.getAddress());
         }

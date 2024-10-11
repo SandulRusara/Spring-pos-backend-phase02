@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class CustomerDTO implements CustomerStatus {
     private String customerId;
     private String firstName;
-    private String lastName;
+    private String city;
     private String email;
     private String address;
 

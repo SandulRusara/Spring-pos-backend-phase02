@@ -18,25 +18,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/customers")
+@CrossOrigin
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void>saveCustomer(
-            @RequestPart("firstName") String firstName,
-            @RequestPart ("lastName") String lastName,
-            @RequestPart ("email") String email,
-            @RequestPart ("address") String address){
-
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void>saveCustomer(@RequestBody CustomerDTO customerDTO){
+        customerDTO.setCustomerId(customerDTO.getCustomerId());
         try {
-            String customerId = AppUtil.generateCustomerId();
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setCustomerId(customerId);
-            customerDTO.setFirstName(firstName);
-            customerDTO.setLastName(lastName);
-            customerDTO.setEmail(email);
-            customerDTO.setAddress(address);
             customerService.saveCustomer(customerDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
@@ -79,7 +68,7 @@ public class CustomerController {
     @PutMapping(value = "/{customerId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void updateCustomer(
             @RequestPart("firstName") String firstName,
-            @RequestPart ("lastName") String lastName,
+            @RequestPart ("lastName") String city,
             @RequestPart ("email") String email,
             @RequestPart ("address") String address,
             @PathVariable ("customerId") String customerId){
@@ -87,7 +76,7 @@ public class CustomerController {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerId(customerId);
         customerDTO.setFirstName(firstName);
-        customerDTO.setLastName(lastName);
+        customerDTO.setCity(city);
         customerDTO.setEmail(email);
         customerDTO.setAddress(address);
         customerService.updateCustomer(customerId,customerDTO);
