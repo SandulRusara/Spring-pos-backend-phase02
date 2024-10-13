@@ -63,6 +63,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDTO> getAllItem() {
-        return null;
+       return mapping.toItemList(itemDao.findAll());
     }
 }
