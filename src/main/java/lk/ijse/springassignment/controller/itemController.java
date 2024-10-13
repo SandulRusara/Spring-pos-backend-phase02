@@ -1,5 +1,7 @@
 package lk.ijse.springassignment.controller;
 
+import lk.ijse.springassignment.customeStatusCode.SelectedUserAndNoteErroStatus;
+import lk.ijse.springassignment.dto.ItemStatus;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.ItemService;
@@ -61,6 +63,14 @@ public class itemController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ItemDTO>getAllItem(){
         return itemService.getAllItem();
+    }
+    @GetMapping(value = "/{itemCode}")
+    public ItemStatus getSelectedItem(@PathVariable("itemCode") String itemCode){
+        if (!RegexProcess.itemValidation(itemCode).matches()){
+            return new SelectedUserAndNoteErroStatus(1,"Item Code is Not Valid");
+
+        }
+        return itemService.getItem(itemCode);
     }
 
 }
