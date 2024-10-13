@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class ItemServiceImpl implements ItemService {
@@ -29,7 +31,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(String itemId, ItemDTO itemDTO) {
-
+        Optional<ItemEntity> tmpItem=itemDao.findById(itemId);
+        if (tmpItem.isPresent()){
+            tmpItem.get().setItemName(itemDTO.getItemName());
+            tmpItem.get().setQtyOnHand(itemDTO.getQtyOnHand());
+            tmpItem.get().setUnitPrice(itemDTO.getUnitPrice());
+        }
     }
 
     @Override
