@@ -1,6 +1,7 @@
 package lk.ijse.springassignment.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.springassignment.customeStatusCode.SelectedUserAndNoteErroStatus;
 import lk.ijse.springassignment.dao.ItemDao;
 import lk.ijse.springassignment.dto.ItemStatus;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
@@ -53,7 +54,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemStatus getItem(String itemId) {
-        return null;
+       if (itemDao.existsById(itemId)){
+           return mapping.toItemDTO(itemDao.getReferenceById(itemId));
+       }else {
+           return new SelectedUserAndNoteErroStatus(2,"Selected item not found");
+       }
     }
 
     @Override
