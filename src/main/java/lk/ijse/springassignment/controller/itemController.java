@@ -3,11 +3,14 @@ package lk.ijse.springassignment.controller;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.ItemService;
+import lk.ijse.springassignment.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.http.HttpClient;
 
 @RestController
 @RequestMapping("api/v1/item")
@@ -36,6 +39,20 @@ public class itemController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping(value = "/{itemCode}")
+    public ResponseEntity<Void>deleteItem(@PathVariable("itemCode")String itemCode){
+        try {
+            if (!RegexProcess.itemValidation(itemCode).matches()){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            itemService.deleteItem(itemCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
