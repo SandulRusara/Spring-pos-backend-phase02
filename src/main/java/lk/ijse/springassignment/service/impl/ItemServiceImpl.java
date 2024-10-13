@@ -5,6 +5,7 @@ import lk.ijse.springassignment.dao.ItemDao;
 import lk.ijse.springassignment.dto.ItemStatus;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
 import lk.ijse.springassignment.entity.impl.ItemEntity;
+import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.ItemService;
 import lk.ijse.springassignment.util.Mapping;
@@ -41,6 +42,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void deleteItem(String itemId) {
+        Optional<ItemEntity>tmpItem=itemDao.findById(itemId);
+        if (!tmpItem.isPresent()){
+            throw new CustomerNotFoundException("item code with "+itemId+" NOt Found ");
+        }else {
+            itemDao.deleteById(itemId);
+        }
 
     }
 
