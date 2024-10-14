@@ -5,6 +5,9 @@ import lk.ijse.springassignment.entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,7 +20,7 @@ public class CustomerEntity implements SuperEntity {
     private String city;
     private String email;
     private String address;
-    //@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
-    
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<OrderEntity>orderList;
 
 }
