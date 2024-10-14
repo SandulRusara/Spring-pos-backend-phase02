@@ -1,8 +1,10 @@
 package lk.ijse.springassignment.util;
 import lk.ijse.springassignment.dto.impl.CustomerDTO;
 import lk.ijse.springassignment.dto.impl.ItemDTO;
+import lk.ijse.springassignment.dto.impl.OrderDTO;
 import lk.ijse.springassignment.entity.impl.CustomerEntity;
 import lk.ijse.springassignment.entity.impl.ItemEntity;
+import lk.ijse.springassignment.entity.impl.OrderEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,17 @@ public class Mapping {
     }
     public List<ItemDTO>toItemList(List<ItemEntity>itemList){
         return modelMapper.map(itemList,new TypeToken<List<ItemDTO>>(){}.getType());
+    }
+
+
+    public OrderEntity toOrderentity (OrderDTO orderDTO){
+        return modelMapper.map(orderDTO, OrderEntity.class);
+    }
+    public OrderDTO toOrderDTO(OrderEntity orderEntity){
+        return modelMapper.map(orderEntity, OrderDTO.class);
+    }
+    public List<OrderDTO>toOrderList(List<OrderEntity>orderList){
+        return modelMapper.map(orderList,new TypeToken<List<OrderDTO>>(){}.getType());
     }
 
 }
