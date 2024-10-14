@@ -10,4 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class OrderDTO implements SuperDTO, OrderStatus {
+    private String orderId;
+    private String date;
+    private double discountRate;
+    private double discount;
+    private double subTotal;
+    private double balance;
+    private CustomerDTO customerId;
 }
