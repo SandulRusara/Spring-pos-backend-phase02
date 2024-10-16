@@ -28,13 +28,14 @@ public class ItemController {
         itemDTO.setItemCode(itemDTO.getItemCode());
         try {
             itemService.saveItem(itemDTO);
-            logger.info("Item saved successfully with item code : ",itemDTO.getItemCode());
+            logger.info("Item Saved Successfully With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.info("Fail to saved Item with Item code : ",itemDTO.getItemCode());
+            logger.info("Fail To Saved Item With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
+            logger.error("Internal Eerver Erro With Item Code ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
