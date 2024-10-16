@@ -1,6 +1,7 @@
 package lk.ijse.springassignment.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.springassignment.customeStatusCode.SelectedUserAndNoteErroStatus;
 import lk.ijse.springassignment.dao.OrderDao;
 import lk.ijse.springassignment.dto.OrderStatus;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
@@ -55,7 +56,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderStatus getOrder(String orderId) {
-        return null;
+        if (orderDao.existsById(orderId)){
+            return mapping.toOrderDTO(orderDao.getReferenceById(orderId));
+        }else {
+            return new SelectedUserAndNoteErroStatus(2,"Order Not Found");
+        }
     }
 
     @Override

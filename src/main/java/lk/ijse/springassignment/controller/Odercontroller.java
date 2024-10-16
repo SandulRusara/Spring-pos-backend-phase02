@@ -1,5 +1,7 @@
 package lk.ijse.springassignment.controller;
 
+import lk.ijse.springassignment.customeStatusCode.SelectedUserAndNoteErroStatus;
+import lk.ijse.springassignment.dto.OrderStatus;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.OrderService;
@@ -67,5 +69,13 @@ public class Odercontroller {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(value = "/{orderId}")
+    public OrderStatus getOrder(@PathVariable("orderId")String orderId){
+        if (!RegexProcess.orderIdValidation(orderId).matches()){
+            return new SelectedUserAndNoteErroStatus(1,"Order Id Not Valid");
+        }
+            return orderService.getOrder(orderId);
+
     }
 }
