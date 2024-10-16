@@ -31,7 +31,7 @@ public class ItemController {
             logger.info("Item saved successfully with item code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-
+            logger.info("Fail to saved Item with Item code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
