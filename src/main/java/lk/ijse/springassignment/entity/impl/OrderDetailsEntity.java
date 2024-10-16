@@ -22,10 +22,10 @@ public class OrderDetailsEntity {
     private String itemName;
     private int orderQty;
     private double unitPrice;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "itemCode",referencedColumnName = "itemCode")
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "itemCode",referencedColumnName = "itemCode",nullable = false)
     private ItemEntity item;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "orderId",nullable = false)
     private OrderEntity order;
 }
