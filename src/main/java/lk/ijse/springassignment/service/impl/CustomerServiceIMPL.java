@@ -39,8 +39,14 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-      List<CustomerEntity> allCustomers=customerDao.findAll();
-      return mapping.asCustomerDTOList(allCustomers);
+        logger.info("Request to get all customers");
+      List<CustomerDTO> allCustomers=mapping.asCustomerDTOList(customerDao.findAll());
+      if (allCustomers.isEmpty()){
+          logger.warn("No Customer Found ");
+      }else {
+          logger.info("Number of customers found ",allCustomers.size());
+      }
+      return allCustomers;
     }
 
     @Override
