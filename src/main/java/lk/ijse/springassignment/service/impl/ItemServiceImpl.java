@@ -28,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
     private static final Logger logger= LoggerFactory.getLogger(ItemServiceImpl.class);
     @Override
     public void saveItem(ItemDTO itemDTO) {
-        logger.info("Save Item With Code ",itemDTO.getItemCode());
+        logger.info("Attempting to save with code ",itemDTO.getItemCode());
         ItemEntity item=itemDao.save(mapping.toItemEntity(itemDTO));
         if (item==null){
             logger.info("Fail To Save Item With Code ",itemDTO.getItemCode());
@@ -40,11 +40,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(String itemId, ItemDTO itemDTO) {
+        logger.info("Attempting to update with code ",itemId);
         Optional<ItemEntity> tmpItem=itemDao.findById(itemId);
         if (tmpItem.isPresent()){
             tmpItem.get().setItemName(itemDTO.getItemName());
             tmpItem.get().setQtyOnHand(itemDTO.getQtyOnHand());
             tmpItem.get().setUnitPrice(itemDTO.getUnitPrice());
+            logger.info("Update Successfully with code ",itemId);
+        }else {
+            logger.info("Not found for update ! with code ",itemId);
         }
     }
 
