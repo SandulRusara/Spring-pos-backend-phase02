@@ -8,6 +8,8 @@ import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.service.CustomerService;
 import lk.ijse.springassignment.util.AppUtil;
 import lk.ijse.springassignment.util.RegexProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+    static Logger logger= LoggerFactory.getLogger(CustomerController.class);
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>saveCustomer(@RequestBody CustomerDTO customerDTO){
        // customerDTO.setCustomerId(customerDTO.getCustomerId());
@@ -29,6 +32,7 @@ public class CustomerController {
         customerDTO.setCustomerId(s);
         try {
             customerService.saveCustomer(customerDTO);
+            logger.info("Customer saved Successfully with id "+customerDTO.getCustomerId());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
