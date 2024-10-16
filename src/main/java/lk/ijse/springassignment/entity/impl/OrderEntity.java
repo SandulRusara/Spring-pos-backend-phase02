@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,6 +24,8 @@ public class OrderEntity implements SuperEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId")
     private CustomerEntity customer;
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    private List<OrderDetailsEntity>orderDetailsList;
 
 
 

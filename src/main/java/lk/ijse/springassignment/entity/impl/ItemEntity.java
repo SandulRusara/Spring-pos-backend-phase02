@@ -1,12 +1,12 @@
 package lk.ijse.springassignment.entity.impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lk.ijse.springassignment.entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +19,7 @@ public class ItemEntity implements SuperEntity {
     private String itemName;
     private int qtyOnHand;
     private double unitPrice;
+    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
+    private List<OrderDetailsEntity> orderList;
+
 }
