@@ -72,8 +72,19 @@ public class ItemController {
         }
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ItemDTO>getAllItem(){
-        return itemService.getAllItem();
+    public ResponseEntity<List<ItemDTO>>getAllItem(){
+       try {
+           List<ItemDTO> itemList=itemService.getAllItem();
+           if (itemList.isEmpty()){
+               return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+           }else {
+               logger.info("All Items Successfully "+itemList.size());
+               return new ResponseEntity<>(itemList,HttpStatus.OK);
+           }
+       }catch (Exception e){
+           logger.error("Erro Item List ",e);
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
 
