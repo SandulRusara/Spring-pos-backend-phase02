@@ -10,6 +10,8 @@ import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.ItemService;
 import lk.ijse.springassignment.util.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,16 @@ public class ItemServiceImpl implements ItemService {
     private ItemDao itemDao;
     @Autowired
     private Mapping mapping;
+    private static final Logger logger= LoggerFactory.getLogger(ItemServiceImpl.class);
     @Override
     public void saveItem(ItemDTO itemDTO) {
+        logger.info("Save Item With Code ",itemDTO.getItemCode());
         ItemEntity item=itemDao.save(mapping.toItemEntity(itemDTO));
         if (item==null){
+            logger.info("Fail To Save Item With Code ",itemDTO.getItemCode());
             throw new DataPersistException("Item not saved");
+        }else {
+            logger.info("Item with code  has been saved successfully!!!!!!!",itemDTO.getItemCode());
         }
     }
 
