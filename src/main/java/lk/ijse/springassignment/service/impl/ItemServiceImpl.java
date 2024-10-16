@@ -67,15 +67,24 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemStatus getItem(String itemId) {
+        logger.info("Fetching item with code "+itemId);
        if (itemDao.existsById(itemId)){
            return mapping.toItemDTO(itemDao.getReferenceById(itemId));
        }else {
+           logger.info("Not Found with code "+itemId);
            return new SelectedUserAndNoteErroStatus(2,"Selected item not found");
        }
     }
 
     @Override
     public List<ItemDTO> getAllItem() {
-       return mapping.toItemList(itemDao.findAll());
+        logger.info("Fetching All items ");
+     List<ItemDTO> items = mapping.toItemList(itemDao.findAll());
+     if (items.isEmpty()){
+         logger.info("No item is Empty");
+     }else {
+         logger.info("Number of items found ",items.size());
+     }
+     return items;
     }
 }
