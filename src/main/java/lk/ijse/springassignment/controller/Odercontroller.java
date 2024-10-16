@@ -28,13 +28,13 @@ public class Odercontroller {
         orderDTO.setOrderId(orderDTO.getOrderId());
         try {
             orderService.saveOrder(orderDTO);
-            logger.info("Saved Order !!");
+            logger.error("Saved Order !!");
             return new  ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.info("Bad Request !!");
+            logger.error("Bad Request !!");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.info("Internal Server Erro");
+            logger.error("Internal Server Erro");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -42,13 +42,13 @@ public class Odercontroller {
     public ResponseEntity<Void>updateOrder(@PathVariable("orderId")String orderId,@RequestBody OrderDTO orderDTO){
         try {
             orderService.updateOrder(orderId,orderDTO);
-            logger.info("Update Order !!");
+            logger.error("Update Order !!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.info("Bad Request !!");
+            logger.error("Bad Request !!");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.info("Internal Server Erro");
+            logger.error("Internal Server Erro");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -59,6 +59,7 @@ public class Odercontroller {
            if (orderList.isEmpty()){
                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
            }else {
+               logger.info("Successfully  all orders ",orderList.size());
                return new ResponseEntity<>(orderList,HttpStatus.OK);
            }
        }catch (Exception e){
@@ -69,21 +70,27 @@ public class Odercontroller {
     public ResponseEntity<Void>deleteOrder(@PathVariable("orderId")String orderId){
         try {
             if (!RegexProcess.orderIdValidation(orderId).matches()){
+                logger.error("Bad Request !!");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             orderService.deleteOrder(orderId);
+            logger.error("No Content");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e ){
+            logger.error("Not Found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            logger.error("Internal Server Error ");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping(value = "/{orderId}")
     public OrderStatus getOrder(@PathVariable("orderId")String orderId){
         if (!RegexProcess.orderIdValidation(orderId).matches()){
+            logger.error("Order id Not Valid");
             return new SelectedUserAndNoteErroStatus(1,"Order Id Not Valid");
         }
+            logger.info("Successfully");
             return orderService.getOrder(orderId);
 
     }
