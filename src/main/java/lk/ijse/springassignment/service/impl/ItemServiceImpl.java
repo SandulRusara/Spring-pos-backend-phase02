@@ -8,6 +8,7 @@ import lk.ijse.springassignment.dto.impl.ItemDTO;
 import lk.ijse.springassignment.entity.impl.ItemEntity;
 import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
+import lk.ijse.springassignment.exception.ItemNotFoundException;
 import lk.ijse.springassignment.service.ItemService;
 import lk.ijse.springassignment.util.Mapping;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
         Optional<ItemEntity>tmpItem=itemDao.findById(itemId);
         if (!tmpItem.isPresent()){
             logger.info("Attempting to delete item with code ",itemId);
-            throw new CustomerNotFoundException("item code with "+itemId+" NOt Found ");
+            throw new ItemNotFoundException("item code with "+itemId+" NOt Found ");
         }else {
             itemDao.deleteById(itemId);
             logger.info("Delete Successfully with code ",itemId);

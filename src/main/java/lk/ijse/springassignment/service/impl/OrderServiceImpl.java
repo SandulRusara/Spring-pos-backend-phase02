@@ -10,6 +10,7 @@ import lk.ijse.springassignment.entity.impl.OrderDetailsEntity;
 import lk.ijse.springassignment.entity.impl.OrderEntity;
 import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
+import lk.ijse.springassignment.exception.OrderNotFoundException;
 import lk.ijse.springassignment.service.OrderDetailsService;
 import lk.ijse.springassignment.service.OrderService;
 import lk.ijse.springassignment.util.AppUtil;
@@ -83,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderEntity> tmorder=orderDao.findById(orderId);
         if (!tmorder.isPresent()){
             logger.error("Not Found ",orderId);
-            throw new CustomerNotFoundException("order "+orderId+"Not Found ");
+            throw new OrderNotFoundException("order "+orderId+"Not Found ");
         }else {
             logger.info("Delete Successfully !!! "+orderId);
             orderDao.deleteById(orderId);
