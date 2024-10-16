@@ -6,6 +6,7 @@ import lk.ijse.springassignment.dao.OrderDao;
 import lk.ijse.springassignment.dto.OrderStatus;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
 import lk.ijse.springassignment.dto.impl.OrderDetailsDTO;
+import lk.ijse.springassignment.entity.impl.OrderDetailsEntity;
 import lk.ijse.springassignment.entity.impl.OrderEntity;
 import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
@@ -13,6 +14,8 @@ import lk.ijse.springassignment.service.OrderDetailsService;
 import lk.ijse.springassignment.service.OrderService;
 import lk.ijse.springassignment.util.AppUtil;
 import lk.ijse.springassignment.util.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +31,15 @@ public class OrderServiceImpl implements OrderService {
     private Mapping mapping;
     @Autowired
     private OrderDetailsService orderDetailsService;
+    private static final Logger logger= LoggerFactory.getLogger(OrderDetailsEntity.class);
     @Override
     public void saveOrder(OrderDTO orderDTO) {
+        logger.info("Attempting to save order with Id ",orderDTO.getOrderId());
         OrderEntity order = orderDao.save(mapping.toOrderentity(orderDTO));
         if (order==null){
             throw new DataPersistException("Order not saved");
         }else {
+            logger.info("Saved Successfully !!!");
             for (OrderDetailsDTO orderDetailsDTO:orderDTO.getOrderDetailsDTO()){
                orderDetailsDTO.setId(AppUtil.OrderDetailsId());
                orderDetailsDTO.setOrder(orderDTO);
@@ -50,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
                        orderDetailsDTO.getItem(),
                        orderDetailsDTO.getOrder()
                ));
+               logger.info("Order detail for order Id saved successfully ",orderDTO.getOrderId());
             }
         }
     }
