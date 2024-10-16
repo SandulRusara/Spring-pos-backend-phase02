@@ -10,6 +10,8 @@ import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.service.CustomerService;
 import lk.ijse.springassignment.util.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,15 @@ public class CustomerServiceIMPL implements CustomerService {
     private CustomerDao customerDao;
     @Autowired
     private Mapping mapping;
+    static Logger logger=LoggerFactory.getLogger(CustomerServiceIMPL.class);
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
+        logger.info("Attempting to save customer With Id "+customerDTO.getCustomerId());
         CustomerEntity saveCustomer= customerDao.save(mapping.tocustomerEntity(customerDTO));
         if (saveCustomer == null) {
             throw new DataPersistException("Customer not saved");
+        }else {
+            logger.info("Customer Saved Successfully !!!");
         }
     }
 
