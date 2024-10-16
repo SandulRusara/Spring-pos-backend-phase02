@@ -93,15 +93,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderStatus getOrder(String orderId) {
         if (orderDao.existsById(orderId)){
+            logger.info("Fetching order ",orderId);
             return mapping.toOrderDTO(orderDao.getReferenceById(orderId));
         }else {
+            logger.warn("Order not Found with Id "+orderId);
             return new SelectedUserAndNoteErroStatus(2,"Order Not Found");
         }
     }
 
     @Override
     public List<OrderDTO> getAllOrder() {
+        logger.info("Fetching all orders");
         List<OrderDTO> orders=mapping.toOrderList(orderDao.findAll());
-       return orders;
+        if (orders.isEmpty()){
+            logger.warn("");
+        }else {
+            logger.info("Number of orders found ",orders.size());
+        }
+        return orders;
     }
 }
