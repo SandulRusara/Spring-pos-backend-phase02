@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> getAllOrder() {
-        return null;
+        List<OrderDTO> orders=mapping.toOrderList(orderDao.findAll());
+       return orders;
     }
 }

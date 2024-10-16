@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/orders")
 @CrossOrigin
@@ -37,5 +39,18 @@ public class Odercontroller {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+       List<OrderDTO> orderList= orderService.getAllOrder();
+       try {
+           if (orderList.isEmpty()){
+               return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+           }else {
+               return new ResponseEntity<>(orderList,HttpStatus.OK);
+           }
+       }catch (Exception e){
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 }
