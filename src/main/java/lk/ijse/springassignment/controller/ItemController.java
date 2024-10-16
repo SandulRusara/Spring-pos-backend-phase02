@@ -31,7 +31,7 @@ public class ItemController {
             logger.info("Item Saved Successfully With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.info("Fail To Saved > With Item Code : ",itemDTO.getItemCode());
+            logger.warn("Fail To Saved > With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
@@ -46,10 +46,10 @@ public class ItemController {
             logger.info("Item Update Successfully ",itemCode);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.info("Fail To Update > With Item Code : ",itemCode);
+            logger.warn("Fail To Update > With Item Code : ",itemCode);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.info("Internal Server Erro With Item Code ",itemCode);
+            logger.error("Internal Server Erro With Item Code ",itemCode);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +64,10 @@ public class ItemController {
             logger.info(" Item Delete Successfully ",itemCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
-            logger.info(" Item Code Not Found ",itemCode);
+            logger.warn(" Item Code Not Found ",itemCode);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            logger.info(" Internal Server Erro With Item Code ",itemCode);
+            logger.error(" Internal Server Erro With Item Code ",itemCode);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -91,7 +91,7 @@ public class ItemController {
     @GetMapping(value = "/{itemCode}")
     public ItemStatus getSelectedItem(@PathVariable("itemCode") String itemCode){
         if (!RegexProcess.itemValidation(itemCode).matches()){
-            logger.info("Invalid Item Code ",itemCode);
+            logger.warn("Invalid Item Code ",itemCode);
             return new SelectedUserAndNoteErroStatus(1,"Item Code is Not Valid");
 
         }

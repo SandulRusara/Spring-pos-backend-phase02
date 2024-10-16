@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
         logger.info("Attempting to save with code ",itemDTO.getItemCode());
         ItemEntity item=itemDao.save(mapping.toItemEntity(itemDTO));
         if (item==null){
-            logger.info("Fail To Save Item With Code ",itemDTO.getItemCode());
+            logger.error("Fail To Save Item With Code ",itemDTO.getItemCode());
             throw new DataPersistException("Item not saved");
         }else {
             logger.info("Item with code  has been saved successfully!!!!!!!",itemDTO.getItemCode());
@@ -48,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
             tmpItem.get().setUnitPrice(itemDTO.getUnitPrice());
             logger.info("Update Successfully with code ",itemId);
         }else {
-            logger.info("Not found for update ! with code ",itemId);
+            logger.warn("Not found for update ! with code ",itemId);
         }
     }
 
@@ -71,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
        if (itemDao.existsById(itemId)){
            return mapping.toItemDTO(itemDao.getReferenceById(itemId));
        }else {
-           logger.info("Not Found with code "+itemId);
+           logger.warn("Not Found with code "+itemId);
            return new SelectedUserAndNoteErroStatus(2,"Selected item not found");
        }
     }
