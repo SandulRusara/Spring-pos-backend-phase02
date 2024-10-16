@@ -35,7 +35,7 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
-            logger.error("Internal Eerver Erro With Item Code ",itemDTO.getItemCode());
+            logger.error("Internal Server Erro With Item Code ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -49,6 +49,7 @@ public class ItemController {
             logger.info("Fail To Update > With Item Code : ",itemCode);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            logger.info("Internal Server Erro With Item Code ",itemCode);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -56,13 +57,17 @@ public class ItemController {
     public ResponseEntity<Void>deleteItem(@PathVariable("itemCode")String itemCode){
         try {
             if (!RegexProcess.itemValidation(itemCode).matches()){
+                logger.info(" Invalid Item Code ",itemCode);
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             itemService.deleteItem(itemCode);
+            logger.info(" Item Delete Successfully ",itemCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
+            logger.info(" Item Code Not Found ",itemCode);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            logger.info(" Internal Server Erro With Item Code ",itemCode);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -70,9 +75,12 @@ public class ItemController {
     public List<ItemDTO>getAllItem(){
         return itemService.getAllItem();
     }
+
+
     @GetMapping(value = "/{itemCode}")
     public ItemStatus getSelectedItem(@PathVariable("itemCode") String itemCode){
         if (!RegexProcess.itemValidation(itemCode).matches()){
+            logger.info("Invalid Item Code ",itemCode);
             return new SelectedUserAndNoteErroStatus(1,"Item Code is Not Valid");
 
         }
