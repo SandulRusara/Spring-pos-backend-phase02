@@ -5,10 +5,13 @@ import lk.ijse.springassignment.customeStatusCode.SelectedUserAndNoteErroStatus;
 import lk.ijse.springassignment.dao.OrderDao;
 import lk.ijse.springassignment.dto.OrderStatus;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
+import lk.ijse.springassignment.dto.impl.OrderDetailsDTO;
 import lk.ijse.springassignment.entity.impl.OrderEntity;
 import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
+import lk.ijse.springassignment.service.OrderDetailsService;
 import lk.ijse.springassignment.service.OrderService;
+import lk.ijse.springassignment.util.AppUtil;
 import lk.ijse.springassignment.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +26,31 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private Mapping mapping;
+    @Autowired
+    private OrderDetailsService orderDetailsService;
     @Override
     public void saveOrder(OrderDTO orderDTO) {
         OrderEntity order = orderDao.save(mapping.toOrderentity(orderDTO));
         if (order==null){
             throw new DataPersistException("Order not saved");
+        }else {
+            for (OrderDetailsDTO orderDetailsDTO:orderDTO.getOrderDetailsDTO()){
+               orderDetailsDTO.setId(AppUtil.OrderDetailsId());
+               orderDetailsDTO.setOrder(orderDTO);
+               orderDetailsService.saveOrderDetails(new OrderDetailsDTO(
+                       orderDetailsDTO.getId(),
+                       orderDetailsDTO.getDate(),
+                       orderDetailsDTO.getCustomerId(),
+                       orderDetailsDTO.getCustomerName(),
+                       orderDetailsDTO.getCustomerCity(),
+                       orderDetailsDTO.getCustomerTel(),
+                       orderDetailsDTO.getItemName(),
+                       orderDetailsDTO.getOrderQty(),
+                       orderDetailsDTO.getUnitPrice(),
+                       orderDetailsDTO.getItem(),
+                       orderDetailsDTO.getOrder()
+               ));
+            }
         }
     }
 
@@ -41,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
             tmorder.get().setSubTotal(orderDTO.getSubTotal());
             tmorder.get().setBalance(orderDTO.getBalance());
             tmorder.get().setCustomer(mapping.tocustomerEntity(orderDTO.getCustomerId()));
+            tmorder.get().setOrderDetailsList(mapping.toOrderEntityDetailsList(orderDTO.getOrderDetailsDTO()));
         }
     }
 

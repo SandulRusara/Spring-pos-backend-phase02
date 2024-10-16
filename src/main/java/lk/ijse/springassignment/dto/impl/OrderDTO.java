@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.sound.sampled.Line;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,4 +20,5 @@ public class OrderDTO implements SuperDTO, OrderStatus {
     private double subTotal;
     private double balance;
     private CustomerDTO customerId;
+    private List<OrderDetailsDTO> orderDetailsDTO;
 }

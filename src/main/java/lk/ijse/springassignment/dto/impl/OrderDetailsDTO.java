@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class OrderDetailsDTO {
     private String id;
     private LocalDate date;
+    private String customerId;
     private String customerName;
     private String customerCity;
     private String customerTel;
