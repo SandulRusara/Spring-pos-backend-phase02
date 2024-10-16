@@ -56,9 +56,11 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItem(String itemId) {
         Optional<ItemEntity>tmpItem=itemDao.findById(itemId);
         if (!tmpItem.isPresent()){
+            logger.info("Attempting to delete item with code ",itemId);
             throw new CustomerNotFoundException("item code with "+itemId+" NOt Found ");
         }else {
             itemDao.deleteById(itemId);
+            logger.info("Delete Successfully with code ",itemId);
         }
 
     }
