@@ -45,10 +45,12 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public CustomerStatus getCustomer(String customerId) {
+        logger.info("Request to get customer");
         if (customerDao.existsById(customerId)){
-            CustomerEntity selectedCustomer = customerDao.getReferenceById(customerId);
-            return mapping.tocustomerDTO(selectedCustomer);
+            logger.info("Customer With Id Found "+customerId);
+            return mapping.tocustomerDTO(customerDao.getReferenceById(customerId));
         }else {
+            logger.warn("Customer Id Not Found ",customerId);
             return new SelectedUserAndNoteErroStatus(2,"Customer with id "+ customerId + "not found");
         }
     }
