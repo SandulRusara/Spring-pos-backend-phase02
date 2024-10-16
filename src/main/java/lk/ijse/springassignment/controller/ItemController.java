@@ -43,6 +43,7 @@ public class ItemController {
     public ResponseEntity<Void>updateItem(@PathVariable("itemCode") String itemCode,@RequestBody ItemDTO itemDTO){
         try {
             itemService.updateItem(itemCode,itemDTO);
+            logger.info("Item Update Successfully ",itemCode);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
