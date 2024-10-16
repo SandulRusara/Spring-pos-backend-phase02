@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(String orderId, OrderDTO orderDTO) {
+        logger.info("Attempting to update order with Id ",orderId);
         Optional<OrderEntity> tmorder=orderDao.findById(orderId);
         if (tmorder.isPresent()){
             tmorder.get().setDate(orderDTO.getDate());
@@ -72,15 +73,19 @@ public class OrderServiceImpl implements OrderService {
             tmorder.get().setBalance(orderDTO.getBalance());
             tmorder.get().setCustomer(mapping.tocustomerEntity(orderDTO.getCustomerId()));
             tmorder.get().setOrderDetailsList(mapping.toOrderEntityDetailsList(orderDTO.getOrderDetailsDTO()));
+            logger.info("Update Successfully with Id "+orderId);
         }
     }
 
     @Override
     public void deleteOrder(String orderId) {
+        logger.info("Attempting to delete order with Id ",orderId);
         Optional<OrderEntity> tmorder=orderDao.findById(orderId);
         if (!tmorder.isPresent()){
+            logger.error("Not Found ",orderId);
             throw new CustomerNotFoundException("order "+orderId+"Not Found ");
         }else {
+            logger.info("Delete Successfully !!! "+orderId);
             orderDao.deleteById(orderId);
         }
     }
