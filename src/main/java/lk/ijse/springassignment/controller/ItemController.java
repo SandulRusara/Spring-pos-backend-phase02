@@ -31,7 +31,7 @@ public class ItemController {
             logger.info("Item Saved Successfully With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.warn("Fail To Saved > With Item Code : ",itemDTO.getItemCode());
+            logger.warn("Fail To Saved Item Bad Request > With Item Code : ",itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class ItemController {
             logger.info("Item Update Successfully ",itemCode);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.warn("Fail To Update > With Item Code : ",itemCode);
+            logger.warn("Fail To Update Item> With Item Code : ",itemCode);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             logger.error("Internal Server Erro With Item Code ",itemCode);

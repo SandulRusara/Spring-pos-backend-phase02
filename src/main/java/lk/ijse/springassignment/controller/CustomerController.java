@@ -35,10 +35,12 @@ public class CustomerController {
             logger.info("Customer saved Successfully with id "+customerDTO.getCustomerId());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.warn("Fail To Saved Customer Bad Request> With Customer Code : "+customerDTO.getCustomerId());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
+            logger.error("Internal Server Erro With Customer Code ",customerDTO.getCustomerId());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
