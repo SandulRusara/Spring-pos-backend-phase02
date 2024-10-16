@@ -5,6 +5,7 @@ import lk.ijse.springassignment.dao.OrderDao;
 import lk.ijse.springassignment.dto.OrderStatus;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
 import lk.ijse.springassignment.entity.impl.OrderEntity;
+import lk.ijse.springassignment.exception.CustomerNotFoundException;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.OrderService;
 import lk.ijse.springassignment.util.Mapping;
@@ -44,7 +45,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(String orderId) {
-
+        Optional<OrderEntity> tmorder=orderDao.findById(orderId);
+        if (!tmorder.isPresent()){
+            throw new CustomerNotFoundException("order "+orderId+"Not Found ");
+        }else {
+            orderDao.deleteById(orderId);
+        }
     }
 
     @Override

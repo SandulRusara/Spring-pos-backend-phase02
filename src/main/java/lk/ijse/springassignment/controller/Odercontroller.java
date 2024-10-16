@@ -3,6 +3,7 @@ package lk.ijse.springassignment.controller;
 import lk.ijse.springassignment.dto.impl.OrderDTO;
 import lk.ijse.springassignment.exception.DataPersistException;
 import lk.ijse.springassignment.service.OrderService;
+import lk.ijse.springassignment.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,5 +53,19 @@ public class Odercontroller {
        }catch (Exception e){
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
        }
+    }
+    @DeleteMapping(value = "/{orderId}")
+    public ResponseEntity<Void>deleteOrder(@PathVariable("orderId")String orderId){
+        try {
+            if (!RegexProcess.orderIdValidation(orderId).matches()){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            orderService.deleteOrder(orderId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

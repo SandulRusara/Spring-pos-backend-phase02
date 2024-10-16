@@ -11,5 +11,7 @@ public class RegexProcess {
     public static Matcher itemValidation(String itemCode){
         return Pattern.compile("^I\\d{2}-\\d{3,}$").matcher(itemCode);
     }
-
+    public static Matcher orderIdValidation(String orderId){
+        return Pattern.compile("/^\\d+$/").matcher(orderId);
+    }
 }
